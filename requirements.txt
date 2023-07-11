@@ -9,4 +9,5 @@ pytz==2023.3
 psutil
 flask
 gunicorn
+requests
  
