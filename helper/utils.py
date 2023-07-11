@@ -1,6 +1,7 @@
 import math, time
 import requests
 import pytz
+import re, os, time
 from base64 import standard_b64encode, standard_b64decode
 from datetime import datetime
 from datetime import datetime
@@ -23,8 +24,8 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
         progress = "{0}{1}".format(
-            ''.join(["⬢" for i in range(math.floor(percentage / 5))]),
-            ''.join(["⬡" for i in range(20 - math.floor(percentage / 5))])
+            ''.join(["▣" for i in range(math.floor(percentage / 5))]),
+            ''.join(["▢" for i in range(20 - math.floor(percentage / 5))])
         )            
         tmp = progress + Txt.PROGRESS_BAR.format( 
             round(percentage, 2),
@@ -94,10 +95,10 @@ def get_readable_time(seconds):
     return dt.strftime('%Y-%m-%d %H:%M:%S')
 
 def shorten_url(url):
-    #site_url = f"https://atglinks.com/api?api=36b6661ad0b4ceeb21c980d665e8159e4e88d622&url={url}&format=text"
-    site_url = f"{url}"
-    #return str(requests.get(site_url).text)
-    return site_url
+    site_url = f"https://atglinks.com/api?api=36b6661ad0b4ceeb21c980d665e8159e4e88d622&url={url}&format=text"
+    #site_url = f"{url}"
+    return str(requests.get(site_url).text)
+    #return site_url
 
 async def send_log(b, u):
     if Config.LOG_CHANNEL is not None:
