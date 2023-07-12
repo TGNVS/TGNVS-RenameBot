@@ -14,7 +14,7 @@ routes = web.RouteTableDef()
 async def root_route_handler(request):
     return web.json_response("PyʀᴏBᴏᴛᴢ")
 
-@routes.get("/status/{code}")
+@routes.get("/status")
 async def status_route_handler(request):
     bot_uptime = time() - botStartTime
     uptime = time() - boot_time()
