@@ -1,5 +1,14 @@
 FROM python:3.10
+# Install required system packages
+RUN apt-get update && \
+    apt-get install -y ffmpeg libsm6 libxext6
+RUN apt-get install build-essential python3-dev -y
+RUN apt install git -y
+# Set the working directory
 WORKDIR /app
-COPY . /app/
-RUN pip install -r requirements.txt
-CMD ["python", "app.py", "&", "python", "bot.py"]
+
+# Copy the requirements file to the working directory
+COPY start.sh /start.sh
+
+# Set the command to run the Python script
+CMD ["/bin/bash", "/start.sh"]
