@@ -30,4 +30,3 @@ def status():
 @app.route('/')
 def hello_world():
     return 'Welcome TGNVS CDN'
-    print(web server start)
