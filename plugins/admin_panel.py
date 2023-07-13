@@ -1,9 +1,15 @@
 from config import Config
+from flask import Flask
+from time import sleep, time
+from psutil import boot_time, disk_usage, net_io_counters
+from subprocess import check_output
+from os import path as ospath
 from helper.database import db
 from pyrogram.types import Message
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
 import os, sys, time, asyncio, logging, datetime
+from helper.utils import get_size
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -11,12 +17,20 @@ logger.setLevel(logging.INFO)
 @Client.on_message(filters.command(["stats", "status"]) & filters.user(Config.ADMIN))
 async def get_stats(bot, message):
     total_users = await db.total_users_count()
-    uptime = time.strftime("%Hh%Mm%Ss", time.gmtime(time.time() - bot.uptime))    
+    uptime = time.strftime("%Hh%Mm%Ss", time.gmtime(time.time() - bot.uptime))
+    sent = net_io_counters().bytes_sent
+    recv = net_io_counters().bytes_recv
+    fdisk = disk_usage('.').free
+    tdisk = disk_usage('.').total
+    upl = await get_size(sent)
+    downl = await get_size(recv)
+    free_disk = await get_size(fdisk)
+    total_disk = await get_size(tdisk)    
     start_t = time.time()
     st = await message.reply('**Aᴄᴄᴇꜱꜱɪɴɢ Tʜᴇ Dᴇᴛᴀɪʟꜱ.....**')    
     end_t = time.time()
     time_taken_s = (end_t - start_t) * 1000
-    await st.edit(text=f"**--Bᴏᴛ Sᴛᴀᴛᴜꜱ--** \n\n**⌚️ Bᴏᴛ Uᴩᴛɪᴍᴇ:** {uptime} \n**🐌 Cᴜʀʀᴇɴᴛ Pɪɴɢ:** `{time_taken_s:.3f} ᴍꜱ` \n**👭 Tᴏᴛᴀʟ Uꜱᴇʀꜱ:** `{total_users}`")
+    await st.edit(text=f"**--Bᴏᴛ Sᴛᴀᴛᴜꜱ--** \n\n**⌚️ Bᴏᴛ Uᴩᴛɪᴍᴇ:** {uptime} \n**🐌 Cᴜʀʀᴇɴᴛ Pɪɴɢ:** `{time_taken_s:.3f} ᴍꜱ` \n**👭 Tᴏᴛᴀʟ Uꜱᴇʀꜱ:** `{total_users}`\n\n**--💽 Disk Useage 💽:--**\n💿Free Disk: {free_disk}\n📀Total Disk: {total_disk}\n\n**--📡 Bandwidth 📡:--**\n🔺Upload:{upl}\n🔻Download: {downl}")
 
 
 #Restart to cancell all process 
