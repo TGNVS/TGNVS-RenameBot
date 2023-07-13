@@ -45,6 +45,7 @@ async def rename_start(client, message):
                 return
     file = getattr(message, message.media.value)
     filename = file.file_name
+    print(filename)
     if file.file_size > 2000 * 1024 * 1024:
          return await message.reply_text("Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ")
 
