@@ -9,6 +9,9 @@ from pytz import timezone
 from config import Config, Txt 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+URL_SHORTENR_WEBSITE = os.environ.get('URL_SHORTENR_WEBSITE', '')
+URL_SHORTNER_WEBSITE_API = os.environ.get('URL_SHORTNER_WEBSITE_API', '')
+
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
     now = time.time()
@@ -95,7 +98,7 @@ def get_readable_time(seconds):
     return dt.strftime('%Y-%m-%d %H:%M:%S')
 
 def shorten_url(url):
-    site_url = f"https://atglinks.com/api?api=4930ea5bb48b0e2da5fb5e34035654c20c5a4fc0&url={url}&format=text"
+    site_url = f"https://{URL_SHORTENR_WEBSITE}/api?api={URL_SHORTNER_WEBSITE_API}&url={url}&format=text"
     #site_url = f"{url}"
     return str(requests.get(site_url).text)
     #return site_url
