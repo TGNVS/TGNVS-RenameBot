@@ -2,6 +2,9 @@ import math, time
 import requests
 import pytz
 import re, os, time
+import asyncio
+import logging
+import aiohttp
 from base64 import standard_b64encode, standard_b64decode
 from datetime import datetime
 from datetime import datetime
@@ -11,7 +14,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 URL_SHORTENR_WEBSITE = os.environ.get('URL_SHORTENR_WEBSITE', '')
 URL_SHORTNER_WEBSITE_API = os.environ.get('URL_SHORTNER_WEBSITE_API', '')
+PING_INTERVAL = int(os.environ.get("PING_INTERVAL", "120"))
 
+logger = logging.getLogger("keep_alive")
 
 async def progress_for_pyrogram(current, total, ud_type, message, start):
     now = time.time()
@@ -122,6 +127,22 @@ async def send_log(b, u):
             Config.LOG_CHANNEL,
             f"**--#New User--**\nUser: {u.mention}\nId: `{u.id}`\nUsername: @{u.username}\nDᴀᴛᴇ: {date}\nTɪᴍᴇ: {time}\nBot Name: {b.mention}"
         )
+
+async def ping_server():
+    sleep_time = PING_INTERVAL
+    logger.info("Started with {}s interval between pings".format(sleep_time))
+    while True:
+        await asyncio.sleep(sleep_time)
+        try:
+            async with aiohttp.ClientSession(
+                timeout=aiohttp.ClientTimeout(total=10)
+            ) as session:
+                async with session.get(f"http://0.0.0.0:8080") as resp:
+                    logging.info(f"Pinged server with response: {resp.status}")
+        except TimeoutError:
+            logging.warning("Couldn't connect to the site URL..!")
+        except Exception:
+            traceback.print_exc()
         
 
 
