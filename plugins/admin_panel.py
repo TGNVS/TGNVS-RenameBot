@@ -1,12 +1,14 @@
 from config import Config
 from flask import Flask
 from time import sleep, time
+import asyncio
 from psutil import boot_time, disk_usage, net_io_counters
 from subprocess import check_output
 from os import path as ospath
 from helper.database import db
 from pyrogram.types import Message
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
 import os, sys, time, asyncio, logging, datetime
 from helper.utils import get_size
@@ -16,6 +18,7 @@ logger.setLevel(logging.INFO)
  
 @Client.on_message(filters.command(["stats", "status"]) & filters.user(Config.ADMIN))
 async def get_stats(bot, message):
+    st = await message.reply('**Aᴄᴄᴇꜱꜱɪɴɢ Tʜᴇ Dᴇᴛᴀɪʟꜱ.....**')
     button = InlineKeyboardMarkup([[
                 InlineKeyboardButton("🔐 𝘾𝙇𝙊𝙎𝙀", callback_data = "close"),
                 InlineKeyboardButton("🏠 𝙃𝙊𝙈𝙀", callback_data = "start")
@@ -30,10 +33,10 @@ async def get_stats(bot, message):
     downl = await get_size(recv)
     free_disk = await get_size(fdisk)
     total_disk = await get_size(tdisk)    
-    start_t = time.time()
-    st = await message.reply('**Aᴄᴄᴇꜱꜱɪɴɢ Tʜᴇ Dᴇᴛᴀɪʟꜱ.....**')    
+    start_t = time.time()    
     end_t = time.time()
     time_taken_s = (end_t - start_t) * 1000
+    await asyncio.sleep(4)
     await st.edit(text=f"**--Bᴏᴛ Sᴛᴀᴛᴜꜱ--** \n\n**⌚️ Bᴏᴛ Uᴩᴛɪᴍᴇ:** {uptime} \n**🐌 Cᴜʀʀᴇɴᴛ Pɪɴɢ:** `{time_taken_s:.3f} ᴍꜱ` \n**👭 Tᴏᴛᴀʟ Uꜱᴇʀꜱ:** `{total_users}`\n\n**--💽 Disk Useage 💽:--**\n💿Free Disk: {free_disk}\n📀Total Disk: {total_disk}\n\n**--📡 Bandwidth 📡:--**\n🔺Upload:{upl}\n🔻Download: {downl}", reply_markup=button)
 
 
