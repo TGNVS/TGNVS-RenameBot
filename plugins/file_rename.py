@@ -17,34 +17,36 @@ import os, time
 
 id_pattern = re.compile(r'^.\d+$')
 ADMIN = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '5490240193').split()]
-
+BIN_CHANNEL = int(os.environ.get("BIN_CHANNEL", ""))
 
 @Client.on_message(filters.private & (filters.document | filters.audio | filters.video))
 async def rename_start(client, message):
+    bin_msg = await message.forward(chat_id=BIN_CHANNEL)
     await db.add_user(client, message)
     uid = message.from_user.id
     result = await db.get_user(message.from_user.id)
     time_left = await db.get_time(message.from_user.id)
     if uid not in ADMIN:
             if result is None:
-                ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 1800)}")
+                ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 3600)}")
                 ad_url = shorten_url(f"https://telegram.me/{client.username}?start={ad_code}")
-                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** 30 minute \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
+                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Click Here To Refresh Token",url=ad_url)]]
                 ),disable_web_page_preview = True)
                 return
             elif int(time_left) < get_current_time():
-                ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 1800)}")
+                ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 3600)}")
                 ad_url = shorten_url(f"https://telegram.me/{client.username}?start={ad_code}")
                 await db.new_token(message.from_user.id, token=ad_code)
-                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** 30 minute \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
+                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Click Here To Refresh Token",url=ad_url)]]
                 ),disable_web_page_preview = True)
                 return
     file = getattr(message, message.media.value)
     filename = file.file_name
+    print(filename)
     if file.file_size > 2000 * 1024 * 1024:
          return await message.reply_text("Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ")
 
@@ -54,7 +56,7 @@ async def rename_start(client, message):
 	    reply_to_message_id=message.id,  
 	    reply_markup=ForceReply(True)
         )       
-        await sleep(30)
+        await sleep(8)
     except FloodWait as e:
         await sleep(e.value)
         await message.reply_text(
