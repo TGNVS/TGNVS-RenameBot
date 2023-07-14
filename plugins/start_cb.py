@@ -1,4 +1,3 @@
-
 import random
 import requests
 import re, os, time
@@ -33,13 +32,13 @@ async def start(client, message):
             if int(ad_msg.split(":")[1]) < get_current_time():
                 await message.reply_text("Token Expired Regenerate A New Token")
                 return
-            if int(ad_msg.split(":")[1]) > int(get_current_time() + 1800):
+            if int(ad_msg.split(":")[1]) > int(get_current_time() + 3600):
                 await message.reply_text("Dont Try To Be Over Smart")
                 return
             if token == message.command[1]:
                 await db.new_time(message.from_user.id, time=int(ad_msg.split(":")[1]))
                 await db.new_token(message.from_user.id, token=None)
-                await message.reply_text("Congratulations! Ads token refreshed successfully! \n\nIt will expire after 30 minute")
+                await message.reply_text("Congratulations! Ads token refreshed successfully! \n\nIt will expire after `1 Hour`")
                 return
         except Exception as e:
             print("error:", str(e))
