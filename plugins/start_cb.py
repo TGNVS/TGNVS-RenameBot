@@ -45,8 +45,10 @@ async def start(client, message):
             await message.reply_text("Invalid Token")
             return
     if Config.START_PIC:
+        await message.delete()
         await message.reply_photo(Config.START_PIC, caption=Txt.START_TXT.format(user.mention), reply_markup=button)       
     else:
+        await message.delete()
         await message.reply_text(text=Txt.START_TXT.format(user.mention), reply_markup=button, disable_web_page_preview=True)
         
         
