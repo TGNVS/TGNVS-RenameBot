@@ -6,7 +6,7 @@ import requests
 from pymongo import MongoClient
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from helper.utils import b64_to_str, get_current_time, shorten_url, str_to_b64
+from helper.utils import b64_to_str, get_current_time, shorten_url, str_to_b64, CheckTimeGap
 from helper.utils import progress_for_pyrogram, convert, humanbytes
 from helper.database import db
 from config import Config
