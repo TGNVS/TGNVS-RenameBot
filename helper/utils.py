@@ -15,7 +15,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 URL_SHORTENR_WEBSITE = os.environ.get('URL_SHORTENR_WEBSITE', '')
 URL_SHORTNER_WEBSITE_API = os.environ.get('URL_SHORTNER_WEBSITE_API', '')
 PING_INTERVAL = int(os.environ.get("PING_INTERVAL", "120"))
-TIME_GAP = int(os.environ.get("TIME_GAP", 120))
+TIME_GAP = int(os.environ.get("TIME_GAP", 30))
 GAP = {}
 
 logger = logging.getLogger("keep_alive")
