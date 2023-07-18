@@ -1,4 +1,3 @@
-
 import re, os, time
 
 id_pattern = re.compile(r'^.\d+$') 
@@ -19,6 +18,10 @@ class Config(object):
     ADMIN       = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '').split()]
     FORCE_SUB   = os.environ.get("FORCE_SUB", "") 
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", ""))
+    URL_SHORTENR_WEBSITE = os.environ.get('URL_SHORTENR_WEBSITE', '')
+    URL_SHORTNER_WEBSITE_API = os.environ.get('URL_SHORTNER_WEBSITE_API', '')
+    TIME_GAP = int(os.environ.get("TIME_GAP", 5))
+    BIN_CHANNEL = int(os.environ.get("BIN_CHANNEL", ""))
 
     # wes response configuration     
     WEBHOOK = bool(os.environ.get("WEBHOOK", True))
