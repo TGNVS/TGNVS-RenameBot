@@ -15,6 +15,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 URL_SHORTENR_WEBSITE = os.environ.get('URL_SHORTENR_WEBSITE', '')
 URL_SHORTNER_WEBSITE_API = os.environ.get('URL_SHORTNER_WEBSITE_API', '')
 PING_INTERVAL = int(os.environ.get("PING_INTERVAL", "120"))
+TIME_GAP = int(os.environ.get("TIME_GAP", 120))
+GAP = {}
 
 logger = logging.getLogger("keep_alive")
 
@@ -144,6 +146,20 @@ async def ping_server():
         except Exception:
             traceback.print_exc()
         
+async def CheckTimeGap(user_id: int):
+    """A Function for checking user time gap!
+    :parameter user_id Telegram User ID"""
 
+    if str(user_id) in GAP:
+        current_time = time.time()
+        previous_time = GAP[str(user_id)]
+        if round(current_time - previous_time) < TIME_GAP:
+            return True, round(previous_time - current_time + TIME_GAP)
+        elif round(current_time - previous_time) >= TIME_GAP:
+            del GAP[str(user_id)]
+            return False, None
+    elif str(user_id) not in GAP:
+        GAP[str(user_id)] = time.time()
+        return False, None
 
 
