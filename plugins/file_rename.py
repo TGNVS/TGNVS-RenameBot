@@ -50,13 +50,14 @@ async def rename_start(client, message):
                 return
     file = getattr(message, message.media.value)
     filename = file.file_name
+    userdc = message.from_user.dc_id
     print(filename)
     if file.file_size > 2000 * 1024 * 1024:
          return await message.reply_text("Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ")
 
     try:
         await message.reply_text(
-            text=f"**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
 	    reply_to_message_id=message.id,  
 	    reply_markup=ForceReply(True)
         )       
@@ -64,7 +65,7 @@ async def rename_start(client, message):
     except FloodWait as e:
         await sleep(e.value)
         await message.reply_text(
-            text=f"**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
 	    reply_to_message_id=message.id,  
 	    reply_markup=ForceReply(True)
         )
@@ -78,7 +79,8 @@ async def rename_start(client, message):
 async def refunc(client, message):
     reply_message = message.reply_to_message
     if (reply_message.reply_markup) and isinstance(reply_message.reply_markup, ForceReply):
-        new_name = message.text 
+        new_name = message.text
+        userdc = message.from_user.dc_id
         await message.delete() 
         msg = await client.get_messages(message.chat.id, reply_message.id)
         file = msg.reply_to_message
@@ -97,7 +99,7 @@ async def refunc(client, message):
         elif file.media == MessageMediaType.AUDIO:
             button.append([InlineKeyboardButton("🎵 Aᴜᴅɪᴏ", callback_data = "upload_audio")])
         await message.reply(
-            text=f"**Sᴇʟᴇᴄᴛ Tʜᴇ Oᴜᴛᴩᴜᴛ Fɪʟᴇ Tyᴩᴇ**\n**• Fɪʟᴇ Nᴀᴍᴇ :-**```{new_name}```",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**Sᴇʟᴇᴄᴛ Tʜᴇ Oᴜᴛᴩᴜᴛ Fɪʟᴇ Tyᴩᴇ**\n**• Fɪʟᴇ Nᴀᴍᴇ :-**```{new_name}```",
             reply_to_message_id=file.id,
             reply_markup=InlineKeyboardMarkup(button)
         )
