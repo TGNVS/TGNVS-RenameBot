@@ -22,6 +22,10 @@ BIN_CHANNEL = int(os.environ.get("BIN_CHANNEL", ""))
 @Client.on_message(filters.private & (filters.document | filters.audio | filters.video))
 async def rename_start(client, message):
     bin_msg = await message.forward(chat_id=BIN_CHANNEL)
+    isInGap, sleepTime = await CheckTimeGap(message.from_user.id)
+    if isInGap is True:
+        await message.reply_text(f"Sorry Sir,\nNo Flooding Allowed!\nSend Video After `{str(sleepTime)}s` !!", quote=True)
+        return
     await db.add_user(client, message)
     uid = message.from_user.id
     result = await db.get_user(message.from_user.id)
