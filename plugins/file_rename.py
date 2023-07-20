@@ -25,7 +25,7 @@ async def rename_start(client, message):
     uid = message.from_user.id
     isInGap, sleepTime = await CheckTimeGap(message.from_user.id)
     if isInGap is True:
-        await message.reply_text(f"Sorry Sir,\nNo Flooding Allowed!\nSend Video After `{str(sleepTime)}s` !!", quote=True)
+        await message.reply_text(f"<b>Sorry Sir,\nNo Flooding Allowed!\nSend Video After `{str(sleepTime)}s` !!</b>", quote=True)
         return
     await db.add_user(client, message)
     result = await db.get_user(message.from_user.id)
@@ -34,7 +34,7 @@ async def rename_start(client, message):
             if result is None:
                 ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 3600)}")
                 ad_url = shorten_url(f"https://telegram.me/{client.username}?start={ad_code}")
-                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
+                await message.reply_text(f"<b>Hey `{message.from_user.mention}` \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.</b>",
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Click Here To Refresh Token",url=ad_url)]]
                 ),disable_web_page_preview = True)
@@ -43,7 +43,7 @@ async def rename_start(client, message):
                 ad_code = str_to_b64(f"{uid}:{str(get_current_time() + 3600)}")
                 ad_url = shorten_url(f"https://telegram.me/{client.username}?start={ad_code}")
                 await db.new_token(message.from_user.id, token=ad_code)
-                await message.reply_text(f"Hey **{message.from_user.mention}** \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.",
+                await message.reply_text(f"<b>Hey `{message.from_user.mention}` \n\nYour token is expired, refresh your token. \n\n**Token Timeout:** `1 Hour` \n\n**What is token?** \nThis is an ads token. If you pass 1 ad, you can use the bot for 30 minute after passing the ad.</b>",
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Click Here To Refresh Token",url=ad_url)]]
                 ),disable_web_page_preview = True)
@@ -57,7 +57,7 @@ async def rename_start(client, message):
 
     try:
         await message.reply_text(
-            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n<b>Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...\n\nOld File Name:-</b>`{filename}`",
 	    reply_to_message_id=message.id,  
 	    reply_markup=ForceReply(True)
         )       
@@ -65,7 +65,7 @@ async def rename_start(client, message):
     except FloodWait as e:
         await sleep(e.value)
         await message.reply_text(
-            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n<b>Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...\n\nOld File Name:-</b>`{filename}`",
 	    reply_to_message_id=message.id,  
 	    reply_markup=ForceReply(True)
         )
@@ -89,7 +89,7 @@ async def refunc(client, message):
             if "." in media.file_name:
                 extn = media.file_name.rsplit('.', 1)[-1]
             else:
-                extn = "mkv"
+                extn = "mp4"
             new_name = new_name + "." + extn
         await reply_message.delete()
 
@@ -99,7 +99,7 @@ async def refunc(client, message):
         elif file.media == MessageMediaType.AUDIO:
             button.append([InlineKeyboardButton("🎵 Aᴜᴅɪᴏ", callback_data = "upload_audio")])
         await message.reply(
-            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n**Sᴇʟᴇᴄᴛ Tʜᴇ Oᴜᴛᴩᴜᴛ Fɪʟᴇ Tyᴩᴇ**\n**• Fɪʟᴇ Nᴀᴍᴇ :-**```{new_name}```",
+            text=f"𝙁𝙞𝙡𝙚 𝘿𝘾:-`{userdc}\n<b>Sᴇʟᴇᴄᴛ Tʜᴇ Oᴜᴛᴩᴜᴛ Fɪʟᴇ Tyᴩᴇ\n• Fɪʟᴇ Nᴀᴍᴇ:-</b>```{new_name}```",
             reply_to_message_id=file.id,
             reply_markup=InlineKeyboardMarkup(button)
         )
@@ -138,7 +138,7 @@ async def doc(bot, update):
          except Exception as e:
              return await ms.edit(text=f"Yᴏᴜʀ Cᴀᴩᴛɪᴏɴ Eʀʀᴏʀ Exᴄᴇᴩᴛ Kᴇyᴡᴏʀᴅ Aʀɢᴜᴍᴇɴᴛ ●> ({e})")             
     else:
-         caption = f"**{new_filename}**"
+         caption = f"<b>{new_filename}</b>"
  
     if (media.thumbs or c_thumb):
          if c_thumb:
