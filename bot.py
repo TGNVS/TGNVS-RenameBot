@@ -7,7 +7,7 @@ from config import Config
 from aiohttp import web
 from route import web_server
 from helper.utils import ping_server
-
+port = int(os.environ.get("PORT", 5000))
 
 class Bot(Client):
 
@@ -31,7 +31,7 @@ class Bot(Client):
         if Config.WEBHOOK:
             app = web.AppRunner(await web_server())
             await app.setup()       
-            await web.TCPSite(app, "0.0.0.0", 8080).start()
+            await web.TCPSite(app, "0.0.0.0", port=port).start()
             asyncio.create_task(ping_server())     
         print(f"{me.first_name} Iꜱ Sᴛᴀʀᴛᴇᴅ.....✨️")
         for id in Config.ADMIN:
