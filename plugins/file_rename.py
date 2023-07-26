@@ -22,6 +22,7 @@ BIN_CHANNEL = int(os.environ.get("BIN_CHANNEL", ""))
 @Client.on_message(filters.private & (filters.document | filters.audio | filters.video))
 async def rename_start(client, message):
     bin_msg = await message.forward(chat_id=BIN_CHANNEL)
+    await bin_msg.reply_text(text=f"**RᴇQᴜᴇꜱᴛᴇᴅ ʙʏ :** [{message.from_user.first_name}](tg://user?id={message.from_user.id})\n**Uꜱᴇʀ ɪᴅ :** `{message.from_user.id}`", disable_web_page_preview=True,  quote=True)
     uid = message.from_user.id
     isInGap, sleepTime = await CheckTimeGap(message.from_user.id)
     if isInGap is True:
