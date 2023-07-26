@@ -48,11 +48,10 @@ class Bot(Client):
                 print("Pʟᴇᴀꜱᴇ Mᴀᴋᴇ Tʜɪꜱ Iꜱ Aᴅᴍɪɴ Iɴ Yᴏᴜʀ Lᴏɢ Cʜᴀɴɴᴇʟ")
 
     async def stop(self, *args):
-        await super().stop()
-        if Config.LOG_CHANNEL:
-            try:
-                await self.send_message(Config.LOG_CHANNEL, f"Bot Stopped")                                
-            except: pass
+        me = await self.get_me()
+        self.mention = me.mention
+        await self.send_message(Config.LOG_CHANNEL, f"{me.mention} Bot Stopped!")
         print("Bot Stopped!")
+        await super().stop()
 
 Bot().run()
